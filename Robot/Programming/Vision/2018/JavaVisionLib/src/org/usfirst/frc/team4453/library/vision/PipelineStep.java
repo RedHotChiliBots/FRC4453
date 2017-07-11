@@ -13,7 +13,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  */
 public abstract class PipelineStep implements Serializable, Runnable {
 	private static final long serialVersionUID = -5477198664992763293L;
-	private ArrayBlockingQueue<Object> inQueue;
+	private ArrayBlockingQueue<Data> inQueue;
 	private Pipeline pipeline;
 	private PipelineStep next = null;
 	private boolean stopReq = false;
@@ -25,7 +25,7 @@ public abstract class PipelineStep implements Serializable, Runnable {
 	 */
 	public PipelineStep(Pipeline p, int queueSize)
 	{
-		inQueue = new ArrayBlockingQueue<Object>(queueSize);
+		inQueue = new ArrayBlockingQueue<Data>(queueSize);
 		pipeline = p;
 		thread.setDaemon(true);
 	}
@@ -36,7 +36,7 @@ public abstract class PipelineStep implements Serializable, Runnable {
 	 */
 	public PipelineStep(Pipeline p)
 	{
-		inQueue = new ArrayBlockingQueue<Object>(5);
+		inQueue = new ArrayBlockingQueue<Data>(5);
 		pipeline = p;
 		thread.setDaemon(true);
 	}
@@ -46,7 +46,7 @@ public abstract class PipelineStep implements Serializable, Runnable {
 	 * @param in The object to add.
 	 * @throws InterruptedException If this thread is interrupted while blocking.
 	 */
-	private void addToQueue(Object in) throws InterruptedException
+	private void addToQueue(Data in) throws InterruptedException
 	{
 		inQueue.put(in);
 	}
@@ -57,7 +57,7 @@ public abstract class PipelineStep implements Serializable, Runnable {
 	 * @param in The object to send.
 	 * @throws InterruptedException If this thread is interrupted while blocking.
 	 */
-	protected void sendToNext(Object in) throws InterruptedException
+	protected void sendToNext(Data in) throws InterruptedException
 	{
 		if(next == null)
 		{
@@ -74,8 +74,12 @@ public abstract class PipelineStep implements Serializable, Runnable {
 	 * @return The first object on the queue.
 	 * @throws InterruptedException If this thread is interrupted while blocking.
 	 */
-	protected Object recieveNext() throws InterruptedException
+	protected Data recieveNext() throws InterruptedException
 	{
+		if(pipeline.isFirst(this))
+		{
+			return new Data();
+		}
 		return inQueue.take();
 	}
 	
@@ -83,14 +87,25 @@ public abstract class PipelineStep implements Serializable, Runnable {
 	 * Called in a loop by run().
 	 * @return True if this step should continue running.
 	 */
-	protected abstract boolean execute();
+	protected abstract boolean execute(Data in);
 	
 	/**
 	 * Calls the execute() method in a loop, until either it returns true or stop() is called.
 	 */
 	public void run()
 	{
-		while(execute() && !stopReq){Thread.yield();}
+		boolean doContinue = true;
+		while(doContinue && !stopReq)
+		{
+			try {
+				Data d = recieveNext();
+				doContinue = execute(d);
+				sendToNext(d);
+			} catch (InterruptedException e) {
+				return;
+			}
+			Thread.yield();
+		}
 	}
 	
 	/** 

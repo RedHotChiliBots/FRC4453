@@ -55,4 +55,15 @@ public class Pipeline implements Serializable {
 		}
 		return null;
 	}
+	
+	/**
+	 * Returns true if the specified step is the first.
+	 * @param in The step.
+	 * @return True if the step is first.
+	 */
+	public boolean isFirst(PipelineStep in)
+	{
+		int i = steps.lastIndexOf(in);
+		return i==0;
+	}
 }
