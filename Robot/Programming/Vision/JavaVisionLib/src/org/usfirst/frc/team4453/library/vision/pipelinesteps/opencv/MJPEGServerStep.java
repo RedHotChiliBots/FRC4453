@@ -60,7 +60,6 @@ public class MJPEGServerStep extends PipelineStep {
 		
 		@Override
 		public void handle(HttpExchange ex) throws IOException {
-			System.out.println("Serving request...");
 			ex.getResponseHeaders().add("Content-Type", "multipart/x-mixed-replace; boundary=--BoundaryString");
 			ex.sendResponseHeaders(200, 0);
 			OutputStream out = ex.getResponseBody();
