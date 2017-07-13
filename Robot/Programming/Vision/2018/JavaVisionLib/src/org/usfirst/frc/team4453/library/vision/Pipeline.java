@@ -1,10 +1,17 @@
 package org.usfirst.frc.team4453.library.vision;
 
-import java.io.Serializable;
 import java.util.LinkedList;
 
-public class Pipeline implements Serializable {
-	private static final long serialVersionUID = -359657508442222721L;
+/**
+ * This class represents a sequence of Pipeline Steps that run in parallel.
+ * @author Conner Ebbinghaus
+ *
+ */
+public class Pipeline
+{
+	/**
+	 * The PipelineSteps.
+	 */
 	private LinkedList<PipelineStep> steps = new LinkedList<PipelineStep>();
 	
 	/**
@@ -17,12 +24,10 @@ public class Pipeline implements Serializable {
 	}
 	
 	/**
-	 * Stops all running pipeline steps, than starts all steps.
-	 * @throws InterruptedException If the calling thread is interrupted while waiting for a step to stop.
+	 * Starts all steps.
 	 */
-	public void start() throws InterruptedException
+	public void start()
 	{
-		stop();
 		for(PipelineStep p : steps)
 		{
 			p.start();

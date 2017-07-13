@@ -1,18 +1,16 @@
 package org.usfirst.frc.team4453.library.vision;
 
-import java.io.Serializable;
 import java.util.concurrent.ArrayBlockingQueue;
 
 
 /**
  * This class represents a step in a pipeline.
  * Running this class will run this class' execute method in a loop until it returns false.
- * Any class wanting to function as a pipeline step should subclass this.
+ * Any class wanting to function as a pipeline step should extend this.
  * @author Conner Ebbinghaus
  *
  */
-public abstract class PipelineStep implements Serializable, Runnable {
-	private static final long serialVersionUID = -5477198664992763293L;
+public abstract class PipelineStep implements Runnable {
 	private ArrayBlockingQueue<Data> inQueue;
 	private Pipeline pipeline;
 	private PipelineStep next = null;
