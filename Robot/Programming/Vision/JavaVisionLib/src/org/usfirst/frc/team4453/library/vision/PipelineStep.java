@@ -99,10 +99,10 @@ public abstract class PipelineStep implements Runnable {
 				Data d = recieveNext();
 				doContinue = execute(d);
 				sendToNext(d);
+				Thread.sleep(1);
 			} catch (InterruptedException e) {
 				return;
 			}
-			Thread.yield();
 		}
 	}
 	
@@ -121,6 +121,8 @@ public abstract class PipelineStep implements Runnable {
 	public void stop() throws InterruptedException
 	{
 		stopReq = true;
+		Thread.sleep(100);
+		thread.interrupt();
 		thread.join();
 	}
 }
