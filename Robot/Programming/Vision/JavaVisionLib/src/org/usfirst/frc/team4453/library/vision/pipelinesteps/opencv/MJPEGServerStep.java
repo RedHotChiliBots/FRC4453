@@ -64,45 +64,37 @@ public class MJPEGServerStep extends PipelineStep {
 			ex.sendResponseHeaders(200, 0);
 			OutputStream out = ex.getResponseBody();
 			phaser.register();
-			try
+
+			while(true)
 			{
-				while(true)
+				Mat frame = null;
+				try {
+					phaser.awaitAdvanceInterruptibly(phaser.arrive());
+				} catch (InterruptedException e) {
+					phaser.arriveAndDeregister();
+					return;
+				}
+				while(frame == null)
 				{
-					Mat frame = null;
-					try {
-						phaser.awaitAdvanceInterruptibly(phaser.arrive());
-						while(frame == null)
-						{
-							frame = inQueue.peek();
-							Thread.sleep(10);
-						}
-					} catch (InterruptedException e) {
-						ex.close();
-						phaser.arriveAndDeregister();
-						return;
-					}
-					MatOfByte frameEncMat = new MatOfByte(); 
-					int[] paramsA = {Imgcodecs.CV_IMWRITE_JPEG_QUALITY, jpegq};
-					MatOfInt params = new MatOfInt();
-					params.fromArray(paramsA);
-					Imgcodecs.imencode(".jpeg", frame, frameEncMat, params);
-					byte[] frameEnc = frameEncMat.toArray();
-					out.write((
-							"--BoundaryString\r\n" +
-									"Content-type: image/jpeg\r\n" +
-									"Content-Length: " +
-									frameEnc.length +
-							"\r\n\r\n").getBytes());
-					out.write(frameEnc);
-					out.write("\r\n\r\n".getBytes());
-					out.flush();
+					frame = inQueue.peek();
 					Thread.yield();
 				}
-			}
-			catch(Throwable e)
-			{
-				phaser.arriveAndDeregister();
-				throw e;
+				MatOfByte frameEncMat = new MatOfByte(); 
+				int[] paramsA = {Imgcodecs.CV_IMWRITE_JPEG_QUALITY, jpegq};
+				MatOfInt params = new MatOfInt();
+				params.fromArray(paramsA);
+				Imgcodecs.imencode(".jpeg", frame, frameEncMat, params);
+				byte[] frameEnc = frameEncMat.toArray();
+				out.write((
+						"--BoundaryString\r\n" +
+								"Content-type: image/jpeg\r\n" +
+								"Content-Length: " +
+								frameEnc.length +
+						"\r\n\r\n").getBytes());
+				out.write(frameEnc);
+				out.write("\r\n\r\n".getBytes());
+				out.flush();
+				Thread.yield();
 			}
 		}
 	}
@@ -146,5 +138,18 @@ public class MJPEGServerStep extends PipelineStep {
 	{
 		handler.jpegq = Math.max(0, Math.min(100, q));
 	}
+	
+	/**
+	 * Gets the set quality.
+	 * @return The JPEG quality.
+	 */
+	public int getQuality()
+	{
+		return handler.jpegq;
+	}
 
+	public void stop()
+	{
+		server.stop(0);
+	}
 }
