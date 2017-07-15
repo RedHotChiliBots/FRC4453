@@ -123,7 +123,24 @@ public class MJPEGServerStep extends PipelineStep {
 		server.start();
 		frameName = n;
 	}
+	
+	/**
+	 * Constructor.
+	 * @param p The Pipeline.
+	 * @param n Name of the frame to send in the Data.
+	 * @param addr The address to bind the server to.
+	 * @throws IOException
+	 */
 
+	public MJPEGServerStep(Pipeline p, String n, InetSocketAddress addr) throws IOException {
+		super(p);
+		server.bind(addr, 0);
+		server.setExecutor(Executors.newCachedThreadPool());
+		server.createContext("/", handler);
+		server.start();
+		frameName = n;
+	}
+	
 	@Override
 	protected boolean execute(Data in) {
 		handler.inQueue.offer((Mat)in.get(frameName));
