@@ -34,7 +34,7 @@ public abstract class PipelineStep implements Runnable {
 	 */
 	public PipelineStep(Pipeline p)
 	{
-		inQueue = new ArrayBlockingQueue<Data>(5);
+		inQueue = new ArrayBlockingQueue<Data>(1);
 		pipeline = p;
 		thread.setDaemon(true);
 	}
