@@ -1,0 +1,19 @@
+Pit Network Packing List:
+[ ] "Death Star" Machine
+[ ]     Some phone with a data connection.
+[ ]     Micro-USB cable.
+[ ]     2 Monitors
+[ ]     VGA cable
+[ ]     HDMI-DVI cable
+[ ] Ethernet switch(es) (>6 ports) and associated power supplies.
+[ ]     Many Ethernet cables. (>6)
+[ ] Drive-station (of course).
+[ ]     A monitor.
+[ ]     HDMI-DVI cable.
+[ ] Scouting PCs and supplies.
+[ ] Kiosk:
+[ ]     RPi 3
+[ ]     Sound bar & cable
+[ ]     Power supply
+[ ]     Another HDMI-DVI cable.
+[ ]     Another monitor.

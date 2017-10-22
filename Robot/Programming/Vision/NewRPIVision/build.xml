@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="jar" name="NewRPIVision">
+    <property name="dir.buildfile" value="."/>
+    <property name="dir.jarfile" value="${dir.buildfile}"/>
+    <property name="dir.libs" value="${dir.buildfile}/libs/"/>
+    <target name="jar" depends="builddeps">
+        <jar destfile="${dir.jarfile}/Vision.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="org.usfirst.frc.team4453.newvisionlib.rpivision.RPIVision"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="${dir.jarfile}/bin"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.buildfile}/libs/opencv-310.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.buildfile}/libs/NetworkTablesDataSource.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.buildfile}/libs/NetworkTables.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.buildfile}/libs/libVision.jar"/>
+        </jar>
+    </target>
+    <target name="builddeps">
+    	<ant dir="../NewVisionLib">
+    		<property name="dir.jarfile" value="../NewRPIVision/libs"/>
+    	</ant>
+    	<ant dir="../NetworkTablesDataSource">
+    		<property name="dir.jarfile" value="../NewRPIVision/libs"/>
+    	</ant>
+    </target>
+    <target name="deploy" depends="create_run_jar">
+		<sshexec command="sudo systemctl stop vision" host="raspberrypi.local" username="pi" password="Robotics1" trust="yes"/>
+		<sshexec command="mkdir -p ~/Vision/natives" host="raspberrypi.local" username="pi" password="Robotics1" trust="yes" failonerror="no"/>
+		<!--<scp todir="pi:Robotics1@raspberrypi.local:~/Vision/" trust="yes">
+			<fileset dir="${dir.buildfile}/">
+				<include name="Vision.jar"/>
+				<include name="misc/runVision.sh"/>
+			</fileset>
+		</scp>
+		<scp todir="pi:Robotics1@raspberrypi.local:~/Vision/natives/" trust="yes">
+			<fileset dir="${dir.buildfile}/">
+				<include name="natives/raspberrypi/libntcore.so"/>
+				<include name="natives/raspberrypi/libopencv_java310.so"/>
+			</fileset>
+		</scp>-->
+		<scp todir="pi:Robotics1@raspberrypi.local:~/Vision/" file="${dir.buildfile}/Vision.jar" trust="yes"></scp>
+		<scp todir="pi:Robotics1@raspberrypi.local:~/Vision/natives/" file="${dir.buildfile}/natives/raspberrypi/libntcore.so" trust="yes"></scp>
+		<scp todir="pi:Robotics1@raspberrypi.local:~/Vision/natives/" file="${dir.buildfile}/natives/raspberrypi/libopencv_java310.so" trust="yes"></scp>
+		<scp todir="pi:Robotics1@raspberrypi.local:~/Vision/" file="${dir.buildfile}/misc/runVision.sh" trust="yes"></scp>
+		<sshexec command="chmod +x ~/Vision/runVision.sh; sync; sudo systemctl start vision" host="raspberrypi.local" username="pi" password="Robotics1" trust="yes"/>
+	</target>
+	<target name="poweroff">
+		<sshexec command="sudo poweroff" host="raspberrypi.local" username="pi" password="Robotics1" trust="yes"/>
+	</target>
+	<target name="reset">
+			<sshexec command="sudo systemctl restart vision" host="raspberrypi.local" username="pi" password="Robotics1" trust="yes"/>
+	</target>
+</project>
