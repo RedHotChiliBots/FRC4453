@@ -49,6 +49,6 @@ sourceSets {
     }
 }
 
-tasks.withType(Test) {
-    systemProperty "java.library.path", "."
+junitPlatformTest {
+    systemProperty "java.library.path", "/usr/share/OpenCV/java/"
 }
