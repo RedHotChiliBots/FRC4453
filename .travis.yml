@@ -7,7 +7,8 @@ before_install:
   - git checkout 3.3.0
   - mkdir build
   - cd build
-  - cmake -DBUILD_SHARED_LIBS=OFF ..
+  - cmake -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=/usr ..
   - make -j8
   - sudo make install
+  - cd ../../
 script: gradle build
