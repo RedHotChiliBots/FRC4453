@@ -12,4 +12,5 @@ before_install:
   - make -j8
   - sudo make install
   - cd ../../
+  - ls /usr/share/java/
 script: gradle build
