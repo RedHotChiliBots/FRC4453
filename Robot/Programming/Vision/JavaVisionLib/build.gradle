@@ -24,15 +24,15 @@ dependencies {
             'org.junit.platform:junit-platform-launcher:1.0.1',
             'org.junit.platform:junit-platform-runner:1.0.1',
     )
-    testCompile files('/usr/share/java/opencv-330.java')
+    testCompile files('/usr/share/OpenCV/java/opencv-330.jar')
     testRuntime(
             'org.junit.jupiter:junit-jupiter-engine:5.0.1',
             'org.junit.vintage:junit-vintage-engine:4.12.1',
             'org.junit.platform:junit-platform-launcher:1.0.1',
             'org.junit.platform:junit-platform-runner:1.0.1',
     )
-    testRuntime files('/usr/share/java/opencv-330.java')
-    compile files('/usr/share/java/opencv-330.java')
+    testRuntime files('/usr/share/OpenCV/java/opencv-330.jar')
+    compile files('/usr/share/OpenCV/java/opencv-330.jar')
 }
 
 
