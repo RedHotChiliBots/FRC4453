@@ -1,1 +1,2 @@
 include "Robot:Programming:FRC2017Robot"
+include "Robot:Programming:Vision:JavaVisionLib"
