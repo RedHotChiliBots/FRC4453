@@ -117,7 +117,7 @@ public class MJPEGServerStep extends PipelineStep {
 	 */
 	public MJPEGServerStep(Pipeline p, String n) throws IOException {
 		super(p);
-		server.bind(new InetSocketAddress("127.0.0.1", 8080), 0);
+		server.bind(new InetSocketAddress("0.0.0.0", 8080), 0);
 		server.setExecutor(Executors.newCachedThreadPool());
 		server.createContext("/", handler);
 		server.start();

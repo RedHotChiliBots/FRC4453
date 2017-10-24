@@ -107,7 +107,7 @@ public class MJPEGServerStepTest {
 	public void testMJPEGServerStepCustomBind() throws InterruptedException, IOException {
 		Pipeline p = new Pipeline();
 		TestStep1 step1 = new TestStep1(p);
-		MJPEGServerStep step = new MJPEGServerStep(p, "frame", new InetSocketAddress("localhost", 8082));
+		MJPEGServerStep step = new MJPEGServerStep(p, "frame", new InetSocketAddress("0.0.0.0", 8082));
 		TestStep2 step2 = new TestStep2(p);
 		Mat m = Mat.zeros(100, 100, CvType.CV_8UC3);
 		for(int x = 1; x <= 100; x++)
