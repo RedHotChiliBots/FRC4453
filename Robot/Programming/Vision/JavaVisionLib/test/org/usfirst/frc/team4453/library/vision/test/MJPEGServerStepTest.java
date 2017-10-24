@@ -77,7 +77,7 @@ public class MJPEGServerStepTest {
 		Thread.sleep(100);
 		Mat c = new Mat();
 		VideoCapture cap = new VideoCapture();
-		cap.open("http://localhost:8080");
+		cap.open("http://127.0.0.1:8080");
 		Thread.sleep(100);
 		cap.read(c);
 		p.stop();
@@ -132,7 +132,7 @@ public class MJPEGServerStepTest {
 		Thread.sleep(100);
 		Mat c = new Mat();
 		VideoCapture cap = new VideoCapture();
-		cap.open("http://localhost:8082");
+		cap.open("http://127.0.0.1:8082");
 		Thread.sleep(100);
 		cap.read(c);
 		p.stop();
