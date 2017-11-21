@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="jar" name="NetworkTablesDataSource">
+	<property name="dir.buildfile" value="."/>
+    <property name="dir.jarfile" value="${dir.buildfile}"/>
+	<target name="jar" depends="">
+        <jar destfile="${dir.jarfile}/NetworkTablesDataSource.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="${dir.buildfile}/src/"/>
+        </jar>
+        <copy file="${dir.buildfile}/NetworkTables.jar" todir="${dir.jarfile}"/>
+    </target>
+</project>

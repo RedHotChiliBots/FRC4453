@@ -1,0 +1,16 @@
+language: java
+cache: ccache
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install ant git cmake build-essential
+  - git clone git://github.com/opencv/opencv.git
+  - cd opencv
+  - git checkout 3.3.0
+  - mkdir build
+  - cd build
+  - cmake -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_opencv_apps=OFF -DBUILD_DOCS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_TESTS=OFF ..
+  - make -j8
+  - sudo make install
+  - cd ../../
+  - ls /usr/share/java/
+script: gradle build
