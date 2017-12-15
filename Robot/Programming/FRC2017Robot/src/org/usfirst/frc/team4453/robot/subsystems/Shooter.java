@@ -45,8 +45,8 @@ public class Shooter extends Subsystem {
 	private static final int YAW_ENCODER_PULSES_PER_REV = 560;	// NeveRest20 = 560 counts per rev
 	private static final double YAW_GEARING_RATIO = 10.5 / 1.1875;	// Motor revolutions per yaw rotation. TODO: Figure this out.
 	private static final double YAW_PULSES_PER_DEGREE = (YAW_ENCODER_PULSES_PER_REV * YAW_GEARING_RATIO) / 360;
-	private static final double YAW_MIN = -65 * YAW_PULSES_PER_DEGREE;
-	private static final double YAW_MAX = 65 * YAW_PULSES_PER_DEGREE;
+	private static final double YAW_MIN = -55 * YAW_PULSES_PER_DEGREE;
+	private static final double YAW_MAX = 55 * YAW_PULSES_PER_DEGREE;
 
 	// Initialize your subsystem here
 	public Shooter() {

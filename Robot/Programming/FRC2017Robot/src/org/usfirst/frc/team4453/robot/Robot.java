@@ -40,7 +40,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 	public static Preferences prefs;
-	public static final String[] prefsList = {"gSafeDist", "gMinDist", "glAlignDist", "glAlignAngle", "grAlignDist", "grAlignAngle"};
+	public static final String[] prefsList = {"gSafeDist", "gMinDist", "glAlignDist", "glAlignAngle", "grAlignDist", "grAlignAngle", "ltime", "rtime"};
 	// subsystems
 	public static Chassis chassis;
 	public static Shooter shooter;

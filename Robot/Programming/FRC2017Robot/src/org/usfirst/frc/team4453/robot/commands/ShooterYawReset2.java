@@ -21,7 +21,7 @@ public class ShooterYawReset2 extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	System.out.println("YawReset2: Execute");
-    	Robot.shooter.yawSetAngle(65.0);
+    	Robot.shooter.yawSetAngle(55.0);
     }
 
     // Make this return true when this Command no longer needs to run execute()

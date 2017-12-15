@@ -8,7 +8,7 @@ package org.usfirst.frc.team4453.library;
 public class Tilt {
 
 	private static final double MPI = 2.54 / 100.0; // Meters per inch
-	private static final double G = 9.80665; // acceleration due to gravity in meters per second
+//	private static final double G = 9.80665; // acceleration due to gravity in meters per second
 	/*
 	 * Tilt Robot constants
 	 */
@@ -57,7 +57,7 @@ public class Tilt {
 		return MPI;
 	}
 
-	public static double getG() {
-		return G;
-	}
+//	public static double getG() {
+//		return G;
+//	}
 }
